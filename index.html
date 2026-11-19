@@ -1,76 +1,148 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><title>FK LMA Daily Ops</title>
+
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+
 <style>
+
 :root{--bg:#f4f6fb;--surface:#fff;--surface2:#eef0f5;--border:#e2e8f0;--fg:#1a1f2e;--fg-m:#64748b;--fg-f:#94a3b8;--acc:#f59e0b;--acc-d:#fef3c7;--grn:#16a34a;--grn-cell:rgba(22,163,74,.12);--red:#dc2626;--red-cell:rgba(220,38,38,.11);--r:10px;--sh:0 1px 3px rgba(0,0,0,.06);--sh2:0 4px 16px rgba(0,0,0,.1)}
+
 @media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--fg:#e6edf3;--fg-m:#8b949e;--fg-f:#484f58;--acc:#fbbf24;--acc-d:#1c1507;--grn:#3fb950;--grn-cell:rgba(63,185,80,.13);--red:#f85149;--red-cell:rgba(248,81,73,.13);color-scheme:dark}}
+
 :root[data-theme=dark]{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--fg:#e6edf3;--fg-m:#8b949e;--fg-f:#484f58;--acc:#fbbf24;--acc-d:#1c1507;--grn:#3fb950;--grn-cell:rgba(63,185,80,.13);--red:#f85149;--red-cell:rgba(248,81,73,.13);color-scheme:dark}
+
 *{box-sizing:border-box;margin:0;padding:0}
+
 body{font-family:Inter,sans-serif;background:var(--bg);color:var(--fg);font-size:13.5px;line-height:1.5;padding:16px}
+
 .hdr{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:18px;padding-bottom:14px;border-bottom:2px solid var(--acc)}
+
 .hdr-left{display:flex;align-items:center;gap:10px}
+
 .logo{width:34px;height:34px;background:var(--acc);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#000;font-weight:800;font-size:13px;flex-shrink:0}
+
 h1{font-size:17px;font-weight:800}.hdr p{font-size:11px;color:var(--fg-m)}
+
 .kpi-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:20px}
+
 .kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;box-shadow:var(--sh)}
+
 .kpi-val{font-size:28px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+
 .kpi-label{font-size:10px;color:var(--fg-m);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
+
 .kpi-sub{font-size:11px;color:var(--fg-m);margin-top:3px}
+
 .gain{color:var(--grn);font-weight:700}.dip{color:var(--red);font-weight:700}.neu{color:var(--fg-m)}
+
 .chart-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px;box-shadow:var(--sh);margin-bottom:16px;overflow:hidden}
+
 .chart-hdr{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+
 .chart-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--fg-m)}
+
 svg.chart{width:100%;overflow:visible}
+
 .tooltip{position:fixed;background:var(--fg);color:var(--bg);padding:7px 11px;border-radius:7px;font-size:11px;pointer-events:none;display:none;z-index:999;white-space:nowrap;font-family:JetBrains Mono,monospace;line-height:1.7;box-shadow:var(--sh2)}
+
 .tbl-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh);overflow-x:auto;margin-bottom:16px}
+
 table{width:100%;border-collapse:collapse;min-width:580px}
+
 thead th{background:var(--surface2);padding:7px 10px;text-align:right;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--fg-m);border-bottom:1px solid var(--border);white-space:nowrap}
+
 thead th.left{text-align:left}
+
 tbody tr:hover{background:var(--bg)}
+
 tbody td{padding:7px 10px;border-bottom:1px solid var(--border);font-size:12px;font-variant-numeric:tabular-nums;text-align:right;font-family:JetBrains Mono,monospace}
+
 tbody td.left{text-align:left;font-family:Inter,sans-serif;font-size:12.5px;padding-left:22px}
+
 td.cgrn{background:var(--grn-cell);color:var(--grn);font-weight:600}
+
 td.cred{background:var(--red-cell);color:var(--red);font-weight:700}
+
 tfoot td{background:var(--surface2);font-weight:700;border-top:2px solid var(--border);font-size:12px;text-align:right;font-family:JetBrains Mono,monospace}
+
 tfoot td.left{text-align:left;font-family:Inter,sans-serif}
+
 .zhdr{background:var(--acc-d)}
+
 .zhdr td{font-family:Inter,sans-serif;text-align:left;font-weight:700;font-size:12px;padding:6px 10px;color:var(--fg)}
+
 .section-bar{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+
 .section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--fg-m)}
+
 select.ctrl{font-size:12px;padding:5px 10px;border:1px solid var(--border);border-radius:7px;background:var(--surface);color:var(--fg);cursor:pointer;font-family:inherit;outline:none}
+
 .updated{font-size:10px;color:var(--fg-f);font-family:JetBrains Mono,monospace}
+
 </style></head><body>
+
 <div class="hdr">
+
   <div class="hdr-left">
+
     <div class="logo">FK</div>
+
     <div><h1>LMA Daily Ops</h1><p>Flipkart &middot; 287 authorised hubs &middot; Zone &times; City</p></div>
+
   </div>
+
   <span class="updated" id="updatedAt"></span>
+
 </div>
+
 <div class="kpi-row" id="kpiRow"></div>
+
 <div class="section-bar">
+
   <span class="section-label">Date</span>
+
   <select class="ctrl" id="dateSel" onchange="render()"></select>
+
   <span class="section-label">Metric</span>
+
   <select class="ctrl" id="metricSel" onchange="render()">
+
     <option value="dau">DAU (Riders)</option>
+
     <option value="opd">OPD (Shipments)</option>
+
     <option value="delivered">Delivered</option>
+
     <option value="hubs">Active Hubs</option>
+
   </select>
+
 </div>
+
 <div class="tbl-wrap"><table id="zoneTable"></table></div>
+
 <div class="chart-card">
+
   <div class="chart-hdr"><span class="chart-title">Total DAU &mdash; 30 Days</span></div>
+
   <svg class="chart" id="dauChart" height="180"></svg>
+
   <div class="tooltip" id="dauTip"></div>
+
 </div>
+
 <div class="chart-card">
+
   <div class="chart-hdr"><span class="chart-title">Zone DAU Trend</span><div style="display:flex;gap:10px;flex-wrap:wrap" id="zoneLeg"></div></div>
+
   <svg class="chart" id="zoneChart" height="150"></svg>
+
   <div class="tooltip" id="zoneTip"></div>
+
 </div>
+
 <script>
 const DATA=[{"date":"2026-10-14","total_unique_riders":1027,"updated_at":"2026-10-21T09:15:39Z","zones":{"North":{"Delhi":{"dau":54,"delivered":3353,"hubs":10,"opd":4555},"NCR":{"dau":35,"delivered":2716,"hubs":7,"opd":3888},"Others":{"dau":31,"delivered":2072,"hubs":13,"opd":2668},"Punjab":{"dau":98,"delivered":7365,"hubs":22,"opd":9047},"Uttar Pradesh":{"dau":112,"delivered":6333,"hubs":29,"opd":7933}},"South":{"Chennai":{"dau":4,"delivered":591,"hubs":2,"opd":626},"Karnataka":{"dau":272,"delivered":19748,"hubs":58,"opd":27422},"Others":{"dau":0,"delivered":0,"hubs":0,"opd":0}},"West":{"Gujarat":{"dau":54,"delivered":3964,"hubs":18,"opd":4901},"Madhya Pradesh":{"dau":65,"delivered":3785,"hubs":16,"opd":4681},"Mumbai":{"dau":227,"delivered":14176,"hubs":33,"opd":18558},"Others":{"dau":71,"delivered":4627,"hubs":16,"opd":5814},"Pune":{"dau":4,"delivered":462,"hubs":4,"opd":510}}}},{"date":"2026-10-15","total_unique_riders":1023,"updated_at":"2026-10-21T09:15:42Z","zones":{"North":{"Delhi":{"dau":49,"delivered":2701,"hubs":10,"opd":3850},"NCR":{"dau":31,"delivered":2250,"hubs":8,"opd":3559},"Others":{"dau":34,"delivered":2192,"hubs":14,"opd":2667},"Punjab":{"dau":91,"delivered":6501,"hubs":22,"opd":8082},"Uttar Pradesh":{"dau":111,"delivered":6449,"hubs":30,"opd":8212}},"South":{"Chennai":{"dau":4,"delivered":592,"hubs":2,"opd":628},"Karnataka":{"dau":267,"delivered":18135,"hubs":57,"opd":28024},"Others":{"dau":0,"delivered":0,"hubs":0,"opd":0}},"West":{"Gujarat":{"dau":59,"delivered":4491,"hubs":19,"opd":5451},"Madhya Pradesh":{"dau":68,"delivered":3844,"hubs":15,"opd":4769},"Mumbai":{"dau":232,"delivered":13663,"hubs":36,"opd":18395},"Others":{"dau":72,"delivered":5102,"hubs":17,"opd":6537},"Pune":{"dau":5,"delivered":400,"hubs":5,"opd":567}}}},{"date":"2026-10-16","total_unique_riders":1005,"updated_at":"2026-10-21T09:15:44Z","zones":{"North":{"Delhi":{"dau":51,"delivered":2728,"hubs":9,"opd":4239},"NCR":{"dau":29,"delivered":1969,"hubs":7,"opd":3400},"Others":{"dau":34,"delivered":2096,"hubs":14,"opd":2875},"Punjab":{"dau":98,"delivered":6898,"hubs":22,"opd":9022},"Uttar Pradesh":{"dau":104,"delivered":5901,"hubs":30,"opd":8013}},"South":{"Chennai":{"dau":4,"delivered":615,"hubs":2,"opd":662},"Karnataka":{"dau":263,"delivered":14998,"hubs":54,"opd":27228},"Others":{"dau":0,"delivered":0,"hubs":0,"opd":0}},"West":{"Gujarat":{"dau":58,"delivered":4248,"hubs":18,"opd":5374},"Madhya Pradesh":{"dau":64,"delivered":3713,"hubs":14,"opd":4666},"Mumbai":{"dau":225,"delivered":11928,"hubs":34,"opd":19582},"Others":{"dau":70,"delivered":4091,"hubs":18,"opd":6216},"Pune":{"dau":5,"delivered":406,"hubs":4,"opd":594}}}},{"date":"2026-10-17","total_unique_riders":999,"updated_at":"2026-10-21T09:15:46Z","zones":{"North":{"Delhi":{"dau":55,"delivered":3164,"hubs":9,"opd":4317},"NCR":{"dau":35,"delivered":2708,"hubs":7,"opd":4187},"Others":{"dau":32,"delivered":2148,"hubs":14,"opd":2781},"Punjab":{"dau":100,"delivered":6825,"hubs":22,"opd":8536},"Uttar Pradesh":{"dau":106,"delivered":6294,"hubs":28,"opd":8110}},"South":{"Chennai":{"dau":4,"delivered":506,"hubs":2,"opd":557},"Karnataka":{"dau":254,"delivered":18537,"hubs":53,"opd":27674},"Others":{"dau":0,"delivered":0,"hubs":0,"opd":0}},"West":{"Gujarat":{"dau":56,"delivered":3932,"hubs":17,"opd":4825},"Madhya Pradesh":{"dau":63,"delivered":3313,"hubs":14,"opd":4223},"Mumbai":{"dau":218,"delivered":12995,"hubs":35,"opd":17300},"Others":{"dau":71,"delivered":4953,"hubs":18,"opd":6511},"Pune":{"dau":5,"delivered":414,"hubs":5,"opd":566}}}},{"date":"2026-10-18","total_unique_riders":984,"updated_at":"2026-10-21T09:15:48Z","zones":{"North":{"Delhi":{"dau":50,"delivered":2892,"hubs":10,"opd":4461},"NCR":{"dau":34,"delivered":2536,"hubs":7,"opd":3662},"Others":{"dau":32,"delivered":2239,"hubs":14,"opd":2941},"Punjab":{"dau":99,"delivered":5697,"hubs":22,"opd":7585},"Uttar Pradesh":{"dau":109,"delivered":6161,"hubs":28,"opd":8132}},"South":{"Chennai":{"dau":4,"delivered":420,"hubs":2,"opd":467},"Karnataka":{"dau":253,"delivered":15637,"hubs":54,"opd":24579},"Others":{"dau":0,"delivered":0,"hubs":0,"opd":0}},"West":{"Gujarat":{"dau":54,"delivered":3258,"hubs":16,"opd":4296},"Madhya Pradesh":{"dau":66,"delivered":3505,"hubs":14,"opd":4412},"Mumbai":{"dau":209,"delivered":10845,"hubs":31,"opd":15552},"Others":{"dau":70,"delivered":4293,"hubs":18,"opd":5930},"Pune":{"dau":4,"delivered":325,"hubs":4,"opd":408}}}},{"date":"2026-10-19","total_unique_riders":981,"updated_at":"2026-10-21T08:47:54Z","zones":{"North":{"Delhi":{"dau":52,"delivered":2581,"hubs":10,"opd":3785},"NCR":{"dau":33,"delivered":2384,"hubs":8,"opd":3443},"Others":{"dau":32,"delivered":2095,"hubs":14,"opd":2688},"Punjab":{"dau":102,"delivered":6783,"hubs":22,"opd":8648},"Uttar Pradesh":{"dau":105,"delivered":6383,"hubs":28,"opd":8347}},"South":{"Chennai":{"dau":4,"delivered":506,"hubs":2,"opd":549},"Karnataka":{"dau":256,"delivered":16627,"hubs":55,"opd":25034},"Others":{"dau":0,"delivered":0,"hubs":0,"opd":0}},"West":{"Gujarat":{"dau":53,"delivered":3222,"hubs":18,"opd":4224},"Madhya Pradesh":{"dau":64,"delivered":3257,"hubs":14,"opd":4133},"Mumbai":{"dau":200,"delivered":11785,"hubs":32,"opd":16887},"Others":{"dau":75,"delivered":4395,"hubs":18,"opd":6087},"Pune":{"dau":5,"delivered":451,"hubs":5,"opd":554}}}},{"date":"2026-10-20","total_unique_riders":940,"updated_at":"2026-10-21T08:47:55Z","zones":{"North":{"Delhi":{"dau":47,"delivered":2414,"hubs":9,"opd":3505},"NCR":{"dau":32,"delivered":2041,"hubs":8,"opd":3168},"Others":{"dau":29,"delivered":1567,"hubs":14,"opd":2236},"Punjab":{"dau":92,"delivered":5814,"hubs":21,"opd":7505},"Uttar Pradesh":{"dau":112,"delivered":5493,"hubs":30,"opd":7413}},"South":{"Chennai":{"dau":5,"delivered":674,"hubs":2,"opd":751},"Karnataka":{"dau":243,"delivered":12603,"hubs":54,"opd":20543},"Others":{"dau":0,"delivered":0,"hubs":0,"opd":0}},"West":{"Gujarat":{"dau":54,"delivered":3175,"hubs":18,"opd":4112},"Madhya Pradesh":{"dau":63,"delivered":2966,"hubs":14,"opd":3836},"Mumbai":{"dau":186,"delivered":10280,"hubs":30,"opd":13767},"Others":{"dau":73,"delivered":4283,"hubs":18,"opd":5965},"Pune":{"dau":4,"delivered":170,"hubs":4,"opd":194}}}},{"date":"2026-10-21","total_unique_riders":936,"updated_at":"2026-10-27T08:52:04Z","zones":{"North":{"Delhi":{"dau":52,"delivered":2599,"hubs":10,"opd":3609},"NCR":{"dau":36,"delivered":2410,"hubs":8,"opd":3333},"Others":{"dau":28,"delivered":1943,"hubs":13,"opd":2511},"Punjab":{"dau":94,"delivered":6536,"hubs":22,"opd":8073},"Uttar Pradesh":{"dau":107,"delivered":5120,"hubs":30,"opd":6792}},"South":{"Chennai":{"dau":5,"delivered":589,"hubs":2,"opd":672},"Karnataka":{"dau":240,"delivered":13040,"hubs":54,"opd":20932},"Others":{"dau":0,"delivered":0,"hubs":0,"opd":0}},"West":{"Gujarat":{"dau":53,"delivered":3707,"hubs":17,"opd":4552},"Madhya Pradesh":{"dau":56,"delivered":2884,"hubs":12,"opd":3656},"Mumbai":{"dau":192,"delivered":11241,"hubs":32,"opd":15162},"Others":{"dau":69,"delivered":4086,"hubs":18,"opd":5716},"Pune":{"dau":4,"delivered":368,"hubs":4,"opd":434}}}},{"date":"2026-10-22","total_unique_riders":966,"updated_at":"2026-10-27T08:52:07Z","zones":{"North":{"Delhi":{"dau":53,"delivered":2513,"hubs":10,"opd":3777},"NCR":{"dau":33,"delivered":1819,"hubs":7,"opd":2801},"Others":{"dau":35,"delivered":2244,"hubs":14,"opd":2945},"Punjab":{"dau":97,"delivered":5543,"hubs":22,"opd":7119},"Uttar Pradesh":{"dau":97,"delivered":4872,"hubs":27,"opd":6440}},"South":{"Chennai":{"dau":5,"delivered":705,"hubs":2,"opd":779},"Karnataka":{"dau":252,"delivered":13334,"hubs":53,"opd":22217},"Others":{"dau":0,"delivered":0,"hubs":0,"opd":0}},"West":{"Gujarat":{"dau":55,"delivered":3800,"hubs":18,"opd":4849},"Madhya Pradesh":{"dau":63,"delivered":2402,"hubs":15,"opd":3065},"Mumbai":{"dau":200,"delivered":10152,"hubs":28,"opd":14101},"Others":{"dau":73,"delivered":3845,"hubs":18,"opd":5588},"Pune":{"dau":3,"delivered":232,"hubs":3,"opd":370}}}},{"date":"2026-10-23","total_unique_riders":954,"updated_at":"2026-10-27T08:52:09Z","zones":{"North":{"Delhi":{"dau":47,"delivered":1776,"hubs":9,"opd":2786},"NCR":{"dau":34,"delivered":2046,"hubs":8,"opd":3216},"Others":{"dau":32,"delivered":1959,"hubs":14,"opd":2577},"Punjab":{"dau":93,"delivered":5594,"hubs":22,"opd":7178},"Uttar Pradesh":{"dau":93,"delivered":4013,"hubs":30,"opd":5661}},"South":{"Chennai":{"dau":5,"delivered":619,"hubs":2,"opd":694},"Karnataka":{"dau":255,"delivered":14363,"hubs":52,"opd":23459},"Others":{"dau":0,"delivered":0,"hubs":0,"opd":0}},"West":{"Gujarat":{"dau":57,"delivered":3555,"hubs":18,"opd":4651},"Madhya Pradesh":{"dau":58,"delivered":2367,"hubs":14,"opd":3033},"Mumbai":{"dau":206,"delivered":9279,"hubs":31,"opd":14070},"Others":{"dau":69,"delivered":3067,"hubs":18,"opd":4666},"Pune":{"dau":5,"delivered":344,"hubs":4,"opd":505}}}},{"date":"2026-10-24","total_unique_riders":944,"updated_at":"2026-10-27T08:52:12Z","zones":{"North":{"Delhi":{"dau":52,"delivered":1902,"hubs":9,"opd":3121},"NCR":{"dau":29,"delivered":1690,"hubs":8,"opd":2683},"Others":{"dau":35,"delivered":2233,"hubs":14,"opd":3023},"Punjab":{"dau":89,"delivered":4324,"hubs":21,"opd":5712},"Uttar Pradesh":{"dau":92,"delivered":4531,"hubs":29,"opd":6195}},"South":{"Chennai":{"dau":5,"delivered":592,"hubs":2,"opd":649},"Karnataka":{"dau":243,"delivered":11590,"hubs":53,"opd":19427},"Others":{"dau":0,"delivered":0,"hubs":0,"opd":0}},"West":{"Gujarat":{"dau":56,"delivered":3667,"hubs":18,"opd":4780},"Madhya Pradesh":{"dau":56,"delivered":2126,"hubs":14,"opd":2782},"Mumbai":{"dau":212,"delivered":9024,"hubs":32,"opd":14024},"Others":{"dau":71,"delivered":3328,"hubs":18,"opd":5223},"Pune":{"dau":4,"delivered":141,"hubs":4,"opd":231}}}},{"date":"2026-10-25","total_unique_riders":882,"updated_at":"2026-10-27T08:52:14Z","zones":{"North":{"Delhi":{"dau":41,"delivered":2044,"hubs":10,"opd":3118},"NCR":{"dau":30,"delivered":1912,"hubs":7,"opd":3011},"Others":{"dau":33,"delivered":1819,"hubs":14,"opd":2680},"Punjab":{"dau":88,"delivered":4382,"hubs":21,"opd":5829},"Uttar Pradesh":{"dau":95,"delivered":3991,"hubs":30,"opd":5859}},"South":{"Chennai":{"dau":5,"delivered":563,"hubs":2,"opd":616},"Karnataka":{"dau":229,"delivered":11508,"hubs":51,"opd":18469},"Others":{"dau":0,"delivered":0,"hubs":0,"opd":0}},"West":{"Gujarat":{"dau":54,"delivered":2744,"hubs":17,"opd":3588},"Madhya Pradesh":{"dau":54,"delivered":2087,"hubs":15,"opd":2614},"Mumbai":{"dau":181,"delivered":7589,"hubs":27,"opd":10754},"Others":{"dau":67,"delivered":3253,"hubs":16,"opd":5234},"Pune":{"dau":5,"delivered":271,"hubs":5,"opd":326}}}},{"date":"2026-10-26","total_unique_riders":906,"updated_at":"2026-10-27T08:52:16Z","zones":{"North":{"Delhi":{"dau":38,"delivered":1636,"hubs":9,"opd":2514},"NCR":{"dau":33,"delivered":1696,"hubs":8,"opd":2613},"Others":{"dau":32,"delivered":1892,"hubs":13,"opd":2589},"Punjab":{"dau":91,"delivered":4935,"hubs":21,"opd":6509},"Uttar Pradesh":{"dau":92,"delivered":4301,"hubs":30,"opd":5810}},"South":{"Chennai":{"dau":5,"delivered":526,"hubs":2,"opd":580},"Karnataka":{"dau":233,"delivered":11988,"hubs":52,"opd":19304},"Others":{"dau":0,"delivered":0,"hubs":0,"opd":0}},"West":{"Gujarat":{"dau":55,"delivered":3117,"hubs":18,"opd":3898},"Madhya Pradesh":{"dau":58,"delivered":1837,"hubs":16,"opd":2245},"Mumbai":{"dau":199,"delivered":7973,"hubs":31,"opd":11667},"Others":{"dau":65,"delivered":3132,"hubs":15,"opd":4642},"Pune":{"dau":5,"delivered":291,"hubs":5,"opd":440}}}},{"date":"2026-10-27","total_unique_riders":899,"updated_at":"2026-10-28T09:46:37Z","zones":{"North":{"Delhi":{"dau":51,"delivered":1621,"hubs":9,"opd":2601},"NCR":{"dau":32,"delivered":1794,"hubs":8,"opd":2801},"Others":{"dau":28,"delivered":1718,"hubs":13,"opd":2396},"Punjab":{"dau":90,"delivered":4445,"hubs":21,"opd":6091},"Uttar Pradesh":{"dau":94,"delivered":4229,"hubs":30,"opd":6027}},"South":{"Chennai":{"dau":5,"delivered":521,"hubs":2,"opd":561},"Karnataka":{"dau":226,"delivered":11617,"hubs":51,"opd":18355},"Others":{"dau":0,"delivered":0,"hubs":0,"opd":0}},"West":{"Gujarat":{"dau":54,"delivered":2547,"hubs":17,"opd":3333},"Madhya Pradesh":{"dau":55,"delivered":2543,"hubs":13,"opd":3086},"Mumbai":{"dau":198,"delivered":7905,"hubs":33,"opd":11048},"Others":{"dau":63,"delivered":2632,"hubs":15,"opd":4211},"Pune":{"dau":3,"delivered":129,"hubs":3,"opd":292}}}},{"date":"2026-10-28","total_unique_riders":856,"updated_at":"2026-11-02T09:30:13Z","zones":{"North":{"Delhi":{"dau":45,"delivered":1949,"hubs":10,"opd":3194},"NCR":{"dau":31,"delivered":1878,"hubs":8,"opd":2962},"Others":{"dau":30,"delivered":2335,"hubs":14,"opd":3015},"Punjab":{"dau":85,"delivered":3844,"hubs":20,"opd":5135},"Uttar Pradesh":{"dau":92,"delivered":4248,"hubs":29,"opd":5780}},"South":{"Chennai":{"dau":4,"delivered":435,"hubs":2,"opd":478},"Karnataka":{"dau":222,"delivered":9804,"hubs":50,"opd":16287},"Others":{"dau":0,"delivered":0,"hubs":0,"opd":0}},"West":{"Gujarat":{"dau":52,"delivered":2823,"hubs":17,"opd":3632},"Madhya Pradesh":{"dau":51,"delivered":1692,"hubs":14,"opd":2176},"Mumbai":{"dau":179,"delivered":8020,"hubs":32,"opd":11130},"Others":{"dau":60,"delivered":2846,"hubs":15,"opd":4196},"Pune":{"dau":5,"delivered":235,"hubs":5,"opd":318}}}},{"date":"2026-10-29","total_unique_riders":857,"updated_at":"2026-11-02T09:30:15Z","zones":{"North":{"Delhi":{"dau":46,"delivered":2192,"hubs":10,"opd":3485},"NCR":{"dau":32,"delivered":1574,"hubs":8,"opd":2508},"Others":{"dau":30,"delivered":1471,"hubs":13,"opd":2022},"Punjab":{"dau":85,"delivered":4165,"hubs":20,"opd":5372},"Uttar Pradesh":{"dau":80,"delivered":3580,"hubs":25,"opd":4752}},"South":{"Chennai":{"dau":5,"delivered":491,"hubs":2,"opd":541},"Karnataka":{"dau":228,"delivered":10207,"hubs":51,"opd":16428},"Others":{"dau":0,"delivered":0,"hubs":0,"opd":0}},"West":{"Gujarat":{"dau":52,"delivered":2892,"hubs":18,"opd":3680},"Madhya Pradesh":{"dau":51,"delivered":2107,"hubs":14,"opd":2617},"Mumbai":{"dau":183,"delivered":8143,"hubs":30,"opd":10982},"Others":{"dau":61,"delivered":3269,"hubs":15,"opd":4730},"Pune":{"dau":4,"delivered":215,"hubs":4,"opd":284}}}},{"date":"2026-10-30","total_unique_riders":844,"updated_at":"2026-11-02T09:30:17Z","zones":{"North":{"Delhi":{"dau":40,"delivered":1575,"hubs":8,"opd":3031},"NCR":{"dau":29,"delivered":1588,"hubs":8,"opd":2596},"Others":{"dau":27,"delivered":1649,"hubs":13,"opd":2298},"Punjab":{"dau":84,"delivered":4707,"hubs":20,"opd":5956},"Uttar Pradesh":{"dau":83,"delivered":3443,"hubs":24,"opd":4925}},"South":{"Chennai":{"dau":5,"delivered":512,"hubs":2,"opd":565},"Karnataka":{"dau":231,"delivered":11020,"hubs":52,"opd":18697},"Others":{"dau":0,"delivered":0,"hubs":0,"opd":0}},"West":{"Gujarat":{"dau":53,"delivered":3252,"hubs":17,"opd":4236},"Madhya Pradesh":{"dau":51,"delivered":1962,"hubs":13,"opd":2565},"Mumbai":{"dau":175,"delivered":7863,"hubs":31,"opd":11035},"Others":{"dau":61,"delivered":3173,"hubs":16,"opd":4497},"Pune":{"dau":5,"delivered":275,"hubs":5,"opd":366}}}},{"date":"2026-10-31","total_unique_riders":842,"updated_at":"2026-11-02T09:30:18Z","zones":{"North":{"Delhi":{"dau":45,"delivered":2218,"hubs":10,"opd":3417},"NCR":{"dau":31,"delivered":1685,"hubs":8,"opd":2605},"Others":{"dau":31,"delivered":1957,"hubs":14,"opd":2873},"Punjab":{"dau":80,"delivered":4135,"hubs":19,"opd":5516},"Uttar Pradesh":{"dau":85,"delivered":4175,"hubs":25,"opd":5555}},"South":{"Chennai":{"dau":5,"delivered":511,"hubs":2,"opd":560},"Karnataka":{"dau":225,"delivered":11062,"hubs":50,"opd":17436},"Others":{"dau":0,"delivered":0,"hubs":0,"opd":0}},"West":{"Gujarat":{"dau":52,"delivered":3088,"hubs":17,"opd":4038},"Madhya Pradesh":{"dau":49,"delivered":1691,"hubs":13,"opd":2209},"Mumbai":{"dau":172,"delivered":7553,"hubs":29,"opd":10552},"Others":{"dau":63,"delivered":2861,"hubs":15,"opd":4138},"Pune":{"dau":4,"delivered":229,"hubs":4,"opd":282}}}},{"date":"2026-11-01","total_unique_riders":740,"updated_at":"2026-11-02T09:30:20Z","zones":{"North":{"Delhi":{"dau":42,"delivered":1998,"hubs":10,"opd":3229},"NCR":{"dau":28,"delivered":1743,"hubs":8,"opd":2562},"Others":{"dau":28,"delivered":1771,"hubs":14,"opd":2453},"Punjab":{"dau":72,"delivered":3600,"hubs":18,"opd":4905},"Uttar Pradesh":{"dau":79,"delivered":3892,"hubs":24,"opd":5263}},"South":{"Chennai":{"dau":5,"delivered":483,"hubs":2,"opd":543},"Karnataka":{"dau":188,"delivered":8674,"hubs":48,"opd":14057},"Others":{"dau":0,"delivered":0,"hubs":0,"opd":0}},"West":{"Gujarat":{"dau":51,"delivered":2863,"hubs":17,"opd":3890},"Madhya Pradesh":{"dau":51,"delivered":2380,"hubs":12,"opd":3044},"Mumbai":{"dau":139,"delivered":7496,"hubs":24,"opd":10161},"Others":{"dau":54,"delivered":2949,"hubs":16,"opd":4126},"Pune":{"dau":3,"delivered":87,"hubs":3,"opd":94}}}},{"date":"2026-11-05","total_unique_riders":810,"updated_at":"2026-11-12T07:15:31Z","zones":{"North":{"Delhi":{"dau":40,"delivered":1383,"hubs":9,"opd":2933},"NCR":{"dau":31,"delivered":1290,"hubs":8,"opd":2283},"Others":{"dau":30,"delivered":1271,"hubs":14,"opd":2030},"Punjab":{"dau":82,"delivered":3465,"hubs":18,"opd":5156},"Uttar Pradesh":{"dau":83,"delivered":3519,"hubs":27,"opd":5697}},"South":{"Chennai":{"dau":5,"delivered":420,"hubs":2,"opd":501},"Karnataka":{"dau":212,"delivered":8413,"hubs":50,"opd":16297},"Others":{"dau":0,"delivered":0,"hubs":0,"opd":0}},"West":{"Gujarat":{"dau":46,"delivered":2615,"hubs":16,"opd":3892},"Madhya Pradesh":{"dau":54,"delivered":2195,"hubs":14,"opd":2797},"Mumbai":{"dau":167,"delivered":6257,"hubs":28,"opd":10777},"Others":{"dau":57,"delivered":2316,"hubs":15,"opd":3617},"Pune":{"dau":3,"delivered":90,"hubs":3,"opd":245}}}},{"date":"2026-11-06","total_unique_riders":763,"updated_at":"2026-11-12T07:15:33Z","zones":{"North":{"Delhi":{"dau":33,"delivered":1242,"hubs":8,"opd":1903},"NCR":{"dau":30,"delivered":1402,"hubs":7,"opd":2240},"Others":{"dau":31,"delivered":1465,"hubs":14,"opd":1984},"Punjab":{"dau":76,"delivered":4647,"hubs":18,"opd":5864},"Uttar Pradesh":{"dau":84,"delivered":4075,"hubs":27,"opd":5483}},"South":{"Chennai":{"dau":5,"delivered":460,"hubs":2,"opd":519},"Karnataka":{"dau":196,"delivered":9173,"hubs":49,"opd":14347},"Others":{"dau":0,"delivered":0,"hubs":0,"opd":0}},"West":{"Gujarat":{"dau":44,"delivered":2241,"hubs":16,"opd":2943},"Madhya Pradesh":{"dau":50,"delivered":1864,"hubs":14,"opd":2398},"Mumbai":{"dau":157,"delivered":7732,"hubs":28,"opd":10471},"Others":{"dau":53,"delivered":2214,"hubs":15,"opd":3034},"Pune":{"dau":4,"delivered":159,"hubs":4,"opd":171}}}},{"date":"2026-11-07","total_unique_riders":770,"updated_at":"2026-11-12T07:16:26Z","zones":{"North":{"Delhi":{"dau":39,"delivered":1629,"hubs":9,"opd":2385},"NCR":{"dau":25,"delivered":920,"hubs":8,"opd":1643},"Others":{"dau":29,"delivered":1226,"hubs":14,"opd":1766},"Punjab":{"dau":79,"delivered":4011,"hubs":18,"opd":5227},"Uttar Pradesh":{"dau":77,"delivered":3633,"hubs":22,"opd":4870}},"South":{"Chennai":{"dau":5,"delivered":431,"hubs":2,"opd":479},"Karnataka":{"dau":206,"delivered":10433,"hubs":50,"opd":16200},"Others":{"dau":0,"delivered":0,"hubs":0,"opd":0}},"West":{"Gujarat":{"dau":42,"delivered":2432,"hubs":16,"opd":3141},"Madhya Pradesh":{"dau":54,"delivered":2026,"hubs":15,"opd":2573},"Mumbai":{"dau":153,"delivered":5787,"hubs":28,"opd":8409},"Others":{"dau":58,"delivered":2231,"hubs":15,"opd":2933},"Pune":{"dau":3,"delivered":54,"hubs":3,"opd":75}}}},{"date":"2026-11-08","total_unique_riders":631,"updated_at":"2026-11-12T07:16:27Z","zones":{"North":{"Delhi":{"dau":13,"delivered":312,"hubs":7,"opd":440},"NCR":{"dau":3,"delivered":45,"hubs":3,"opd":67},"Others":{"dau":14,"delivered":401,"hubs":10,"opd":490},"Punjab":{"dau":70,"delivered":2164,"hubs":16,"opd":2485},"Uttar Pradesh":{"dau":67,"delivered":1983,"hubs":20,"opd":2817}},"South":{"Chennai":{"dau":3,"delivered":91,"hubs":2,"opd":124},"Karnataka":{"dau":177,"delivered":6496,"hubs":45,"opd":10799},"Others":{"dau":0,"delivered":0,"hubs":0,"opd":0}},"West":{"Gujarat":{"dau":40,"delivered":1671,"hubs":14,"opd":2191},"Madhya Pradesh":{"dau":55,"delivered":1790,"hubs":13,"opd":2275},"Mumbai":{"dau":135,"delivered":6110,"hubs":24,"opd":7965},"Others":{"dau":53,"delivered":2231,"hubs":15,"opd":2828},"Pune":{"dau":1,"delivered":1,"hubs":1,"opd":2}}}},{"date":"2026-11-09","total_unique_riders":633,"updated_at":"2026-11-12T07:16:29Z","zones":{"North":{"Delhi":{"dau":25,"delivered":1059,"hubs":8,"opd":1954},"NCR":{"dau":15,"delivered":681,"hubs":6,"opd":916},"Others":{"dau":28,"delivered":1207,"hubs":12,"opd":1643},"Punjab":{"dau":65,"delivered":2714,"hubs":17,"opd":3735},"Uttar Pradesh":{"dau":39,"delivered":1061,"hubs":16,"opd":1506}},"South":{"Chennai":{"dau":5,"delivered":417,"hubs":2,"opd":453},"Karnataka":{"dau":173,"delivered":6587,"hubs":47,"opd":10181},"Others":{"dau":0,"delivered":0,"hubs":0,"opd":0}},"West":{"Gujarat":{"dau":40,"delivered":1744,"hubs":13,"opd":2303},"Madhya Pradesh":{"dau":48,"delivered":1464,"hubs":13,"opd":1973},"Mumbai":{"dau":140,"delivered":6454,"hubs":25,"opd":9311},"Others":{"dau":54,"delivered":2535,"hubs":14,"opd":3552},"Pune":{"dau":1,"delivered":30,"hubs":1,"opd":70}}}},{"date":"2026-11-10","total_unique_riders":677,"updated_at":"2026-11-12T07:16:30Z","zones":{"North":{"Delhi":{"dau":28,"delivered":894,"hubs":9,"opd":1662},"NCR":{"dau":15,"delivered":399,"hubs":6,"opd":757},"Others":{"dau":29,"delivered":1206,"hubs":13,"opd":1814},"Punjab":{"dau":78,"delivered":3145,"hubs":17,"opd":4355},"Uttar Pradesh":{"dau":65,"delivered":2431,"hubs":21,"opd":3470}},"South":{"Chennai":{"dau":5,"delivered":536,"hubs":2,"opd":576},"Karnataka":{"dau":188,"delivered":8888,"hubs":45,"opd":13472},"Others":{"dau":0,"delivered":0,"hubs":0,"opd":0}},"West":{"Gujarat":{"dau":30,"delivered":734,"hubs":10,"opd":1030},"Madhya Pradesh":{"dau":38,"delivered":750,"hubs":10,"opd":1103},"Mumbai":{"dau":146,"delivered":7728,"hubs":25,"opd":10523},"Others":{"dau":51,"delivered":2396,"hubs":15,"opd":3438},"Pune":{"dau":4,"delivered":65,"hubs":4,"opd":78}}}},{"date":"2026-11-11","total_unique_riders":648,"updated_at":"2026-11-12T07:16:31Z","zones":{"North":{"Delhi":{"dau":28,"delivered":1063,"hubs":8,"opd":1765},"NCR":{"dau":15,"delivered":493,"hubs":6,"opd":1384},"Others":{"dau":23,"delivered":948,"hubs":13,"opd":1343},"Punjab":{"dau":72,"delivered":2536,"hubs":18,"opd":3586},"Uttar Pradesh":{"dau":58,"delivered":2196,"hubs":18,"opd":3107}},"South":{"Chennai":{"dau":5,"delivered":383,"hubs":2,"opd":431},"Karnataka":{"dau":193,"delivered":8557,"hubs":49,"opd":13771},"Others":{"dau":0,"delivered":0,"hubs":0,"opd":0}},"West":{"Gujarat":{"dau":32,"delivered":1278,"hubs":13,"opd":1943},"Madhya Pradesh":{"dau":35,"delivered":1136,"hubs":13,"opd":1543},"Mumbai":{"dau":137,"delivered":4760,"hubs":24,"opd":6989},"Others":{"dau":48,"delivered":1683,"hubs":15,"opd":2669},"Pune":{"dau":2,"delivered":22,"hubs":2,"opd":71}}}},{"date":"2026-11-12","total_unique_riders":691,"updated_at":"2026-11-16T07:20:36Z","zones":{"North":{"Delhi":{"dau":34,"delivered":983,"hubs":7,"opd":1987},"NCR":{"dau":23,"delivered":701,"hubs":6,"opd":1755},"Others":{"dau":28,"delivered":1249,"hubs":13,"opd":1895},"Punjab":{"dau":76,"delivered":2747,"hubs":19,"opd":3665},"Uttar Pradesh":{"dau":66,"delivered":2660,"hubs":20,"opd":3835}},"South":{"Chennai":{"dau":5,"delivered":269,"hubs":2,"opd":310},"Karnataka":{"dau":194,"delivered":6973,"hubs":49,"opd":12257},"Others":{"dau":0,"delivered":0,"hubs":0,"opd":0}},"West":{"Gujarat":{"dau":35,"delivered":1328,"hubs":14,"opd":1988},"Madhya Pradesh":{"dau":43,"delivered":1661,"hubs":12,"opd":2209},"Mumbai":{"dau":134,"delivered":5016,"hubs":27,"opd":7388},"Others":{"dau":50,"delivered":1532,"hubs":14,"opd":2434},"Pune":{"dau":3,"delivered":114,"hubs":3,"opd":178}}}},{"date":"2026-11-13","total_unique_riders":662,"updated_at":"2026-11-16T07:20:38Z","zones":{"North":{"Delhi":{"dau":26,"delivered":816,"hubs":7,"opd":1695},"NCR":{"dau":23,"delivered":737,"hubs":6,"opd":1741},"Others":{"dau":29,"delivered":1286,"hubs":14,"opd":2046},"Punjab":{"dau":69,"delivered":2039,"hubs":19,"opd":2875},"Uttar Pradesh":{"dau":72,"delivered":2576,"hubs":20,"opd":3763}},"South":{"Chennai":{"dau":5,"delivered":288,"hubs":2,"opd":323},"Karnataka":{"dau":187,"delivered":6650,"hubs":47,"opd":10914},"Others":{"dau":0,"delivered":0,"hubs":0,"opd":0}},"West":{"Gujarat":{"dau":35,"delivered":1152,"hubs":13,"opd":1762},"Madhya Pradesh":{"dau":39,"delivered":887,"hubs":10,"opd":1268},"Mumbai":{"dau":129,"delivered":4691,"hubs":24,"opd":6867},"Others":{"dau":46,"delivered":1282,"hubs":13,"opd":2031},"Pune":{"dau":2,"delivered":18,"hubs":2,"opd":52}}}},{"date":"2026-11-14","total_unique_riders":678,"updated_at":"2026-11-16T07:20:40Z","zones":{"North":{"Delhi":{"dau":28,"delivered":906,"hubs":6,"opd":1762},"NCR":{"dau":24,"delivered":833,"hubs":7,"opd":1807},"Others":{"dau":32,"delivered":1235,"hubs":13,"opd":1861},"Punjab":{"dau":70,"delivered":2559,"hubs":18,"opd":3444},"Uttar Pradesh":{"dau":72,"delivered":2310,"hubs":22,"opd":3375}},"South":{"Chennai":{"dau":4,"delivered":224,"hubs":2,"opd":251},"Karnataka":{"dau":185,"delivered":6514,"hubs":44,"opd":10796},"Others":{"dau":0,"delivered":0,"hubs":0,"opd":0}},"West":{"Gujarat":{"dau":40,"delivered":1286,"hubs":14,"opd":1805},"Madhya Pradesh":{"dau":42,"delivered":903,"hubs":11,"opd":1274},"Mumbai":{"dau":134,"delivered":4326,"hubs":25,"opd":6523},"Others":{"dau":45,"delivered":1273,"hubs":13,"opd":2008},"Pune":{"dau":2,"delivered":110,"hubs":2,"opd":171}}}},{"date":"2026-11-15","total_unique_riders":612,"updated_at":"2026-11-16T07:20:42Z","zones":{"North":{"Delhi":{"dau":28,"delivered":955,"hubs":9,"opd":1784},"NCR":{"dau":20,"delivered":708,"hubs":5,"opd":1378},"Others":{"dau":28,"delivered":942,"hubs":13,"opd":1454},"Punjab":{"dau":65,"delivered":2064,"hubs":18,"opd":2805},"Uttar Pradesh":{"dau":65,"delivered":2269,"hubs":20,"opd":3206}},"South":{"Chennai":{"dau":4,"delivered":255,"hubs":2,"opd":292},"Karnataka":{"dau":169,"delivered":5585,"hubs":46,"opd":9193},"Others":{"dau":0,"delivered":0,"hubs":0,"opd":0}},"West":{"Gujarat":{"dau":37,"delivered":1241,"hubs":12,"opd":1762},"Madhya Pradesh":{"dau":40,"delivered":991,"hubs":11,"opd":1317},"Mumbai":{"dau":111,"delivered":4412,"hubs":22,"opd":6144},"Others":{"dau":43,"delivered":1388,"hubs":14,"opd":2072},"Pune":{"dau":2,"delivered":79,"hubs":2,"opd":152}}}}];
+
 const ZONES=["North","South","West"];
 const ZC={"North":"#6366f1","South":"#10b981","West":"#f59e0b"};
 const CT={"North":["Delhi","NCR","Uttar Pradesh","Punjab","Others"],"South":["Karnataka","Chennai","Others"],"West":["Mumbai","Pune","Gujarat","Madhya Pradesh","Others"]};
@@ -78,10 +150,30 @@ const fmt=v=>v==null?"\u2014":Math.round(v).toLocaleString();
 function gM(doc,z,c,m){return doc?.zones?.[z]?.[c]?.[m]??0}
 function tM(doc,m){if(!doc)return 0;if(m==="dau")return doc.total_unique_riders;let t=0;for(const z of ZONES)for(const c of CT[z])t+=gM(doc,z,c,m);return t}
 function zT(doc,z,m){if(!doc)return 0;if(m==="dau"){let s=0;for(const c of CT[z])s+=gM(doc,z,c,"dau");return s}let s=0;for(const c of CT[z])s+=gM(doc,z,c,m);return s}
-function initSel(){const s=document.getElementById("dateSel");DATA.slice().reverse().forEach((d,i)=>{const o=document.createElement("option");o.value=d.date;o.text=d.date+(i===0?" (latest)":"");s.appendChild(o)});s.value=DATA[DATA.length-1].date}
+
+function getActiveZones(){const v=document.getElementById("zoneSel").value;return v==="all"?ZONES:[v]}
+
+function initSel(){
+  const s=document.getElementById("dateSel");
+  DATA.slice().reverse().forEach((d,i)=>{const o=document.createElement("option");o.value=d.date;o.text=d.date+(i===0?" (latest)":"");s.appendChild(o)});
+  s.value=DATA[DATA.length-1].date;
+  // init range selectors
+  const rf=document.getElementById("rangeFrom"),rt=document.getElementById("rangeTo");
+  DATA.forEach(d=>{
+    const o1=document.createElement("option");o1.value=d.date;o1.text=d.date;rf.appendChild(o1);
+    const o2=document.createElement("option");o2.value=d.date;o2.text=d.date;rt.appendChild(o2);
+  });
+  // default: last 7 days
+  const n=DATA.length;
+  rf.value=DATA[Math.max(0,n-7)].date;
+  rt.value=DATA[n-1].date;
+  renderRange();
+}
+
 function render(){
   const date=document.getElementById("dateSel").value;
   const metric=document.getElementById("metricSel").value;
+  const activeZones=getActiveZones();
   const doc=DATA.find(d=>d.date===date),idx=DATA.indexOf(doc);
   const prev=idx>0?DATA[idx-1]:null;
   const dau=doc?.total_unique_riders??0,pdau=prev?.total_unique_riders??0,dod=dau-pdau;
@@ -90,17 +182,82 @@ function render(){
   document.getElementById("updatedAt").textContent="Updated: "+(doc?.updated_at?.slice(0,16)||date);
   let html='<thead><tr><th class="left">Zone / City</th><th>Riders</th><th>Prev</th><th>DoD</th><th>OPD</th><th>Del%</th><th>Hubs</th></tr></thead><tbody>';
   let tc=0,tp=0,to=0,td2=0,th2=0;
-  for(const z of ZONES){html+=`<tr class="zhdr"><td colspan="7">${z} Zone &mdash; ${fmt(zT(doc,z,"dau"))} riders &middot; ${fmt(zT(doc,z,"opd"))} OPD</td></tr>`;
+  for(const z of activeZones){html+=`<tr class="zhdr"><td colspan="7">${z} Zone &mdash; ${fmt(zT(doc,z,"dau"))} riders &middot; ${fmt(zT(doc,z,"opd"))} OPD</td></tr>`;
     for(const c of CT[z]){const cur=gM(doc,z,c,metric),pv=gM(prev,z,c,metric),dif=cur-pv,o2=gM(doc,z,c,"opd"),d2=gM(doc,z,c,"delivered"),h2=gM(doc,z,c,"hubs"),dp2=o2?Math.round(d2/o2*100):0;
       html+=`<tr><td class="left">${c}</td><td class="${cur>pv?"cgrn":cur<pv&&cur>0?"cred":""}">${fmt(cur)}</td><td style="color:var(--fg-m)">${fmt(pv)}</td><td class="${dif<0?"dip":dif>0?"gain":"neu"}">${dif>0?"+":""}${fmt(dif)}</td><td>${fmt(o2)}</td><td>${dp2?dp2+"%":"&mdash;"}</td><td>${fmt(h2)}</td></tr>`;
       tc+=cur;tp+=pv;to+=o2;td2+=d2;th2+=h2;
     }
   }
   const dif2=tc-tp,dp3=to?Math.round(td2/to*100):0;
-  html+=`</tbody><tfoot><tr><td class="left">All Zones</td><td>${fmt(metric==="dau"?dau:tc)}</td><td>${fmt(metric==="dau"?pdau:tp)}</td><td class="${dif2<0?"dip":"gain"}">${dif2>0?"+":""}${fmt(dif2)}</td><td>${fmt(to)}</td><td>${dp3?dp3+"%":"&mdash;"}</td><td>${fmt(th2)}</td></tr></tfoot>`;
+  html+=`</tbody><tfoot><tr><td class="left">Total (selected zones)</td><td>${fmt(metric==="dau"?dau:tc)}</td><td>${fmt(metric==="dau"?pdau:tp)}</td><td class="${dif2<0?"dip":"gain"}">${dif2>0?"+":""}${fmt(dif2)}</td><td>${fmt(to)}</td><td>${dp3?dp3+"%":"&mdash;"}</td><td>${fmt(th2)}</td></tr></tfoot>`;
   document.getElementById("zoneTable").innerHTML=html;
   renderCharts();
 }
+
+function onRangeChange(){
+  const rf=document.getElementById("rangeFrom"),rt=document.getElementById("rangeTo");
+  const fromIdx=DATA.findIndex(d=>d.date===rf.value);
+  const toIdx=DATA.findIndex(d=>d.date===rt.value);
+  if(toIdx<fromIdx){rt.value=rf.value}
+  const span=DATA.findIndex(d=>d.date===rt.value)-DATA.findIndex(d=>d.date===rf.value)+1;
+  if(span>7){
+    const newFrom=Math.max(0,DATA.findIndex(d=>d.date===rt.value)-6);
+    rf.value=DATA[newFrom].date;
+    document.getElementById("rangeNote").textContent="Max 7 days — adjusted start date";
+  } else {
+    document.getElementById("rangeNote").textContent=span+" day"+(span>1?"s":"")+" selected";
+  }
+  renderRange();
+}
+
+function renderRange(){
+  const rf=document.getElementById("rangeFrom").value;
+  const rt=document.getElementById("rangeTo").value;
+  const fromIdx=DATA.findIndex(d=>d.date===rf);
+  const toIdx=DATA.findIndex(d=>d.date===rt);
+  if(fromIdx<0||toIdx<0||toIdx<fromIdx)return;
+  const days=DATA.slice(fromIdx,toIdx+1);
+  const activeZones=getActiveZones();
+  document.getElementById("rangeNote").textContent=days.length+" day"+(days.length>1?"s":"")+" selected";
+
+  // Build table: rows = zone/city, cols = dates
+  let cols='<th class="left">Zone / City</th>';
+  days.forEach(d=>{const dt=new Date(d.date);const day=dt.toLocaleDateString("en-US",{weekday:"short"});cols+=`<th>${day}<br>${d.date.slice(5)}</th>`});
+  cols+='<th>Avg</th><th>Trend</th>';
+  let html=`<thead><tr>${cols}</tr></thead><tbody>`;
+
+  let totals=days.map(()=>0);
+  for(const z of activeZones){
+    html+=`<tr class="zhdr"><td colspan="${days.length+3}">${z} Zone</td></tr>`;
+    for(const c of CT[z]){
+      const vals=days.map(d=>gM(d,z,c,"dau"));
+      const avg=vals.reduce((a,b)=>a+b,0)/vals.length;
+      const trend=vals[vals.length-1]>=vals[0];
+      let cells=vals.map((v,i)=>{
+        const prev=i>0?vals[i-1]:v;
+        const cls=v>prev?"cgrn":v<prev&&v>0?"cred":"";
+        return `<td class="${cls}">${fmt(v)}</td>`;
+      }).join("");
+      vals.forEach((v,i)=>totals[i]+=v);
+      html+=`<tr><td class="left">${c}</td>${cells}<td style="font-weight:600">${fmt(avg)}</td><td>${sparkMini(vals,trend)}</td></tr>`;
+    }
+  }
+  // totals row
+  const tAvg=totals.reduce((a,b)=>a+b,0)/totals.length;
+  const tTrend=totals[totals.length-1]>=totals[0];
+  let totCells=totals.map((v,i)=>{const prev=i>0?totals[i-1]:v;const cls=v>prev?"cgrn":v<prev&&v>0?"cred":"";return `<td class="${cls}">${fmt(v)}</td>`}).join("");
+  html+=`</tbody><tfoot><tr><td class="left">Total</td>${totCells}<td>${fmt(tAvg)}</td><td>${sparkMini(totals,tTrend)}</td></tr></tfoot>`;
+  document.getElementById("rangeTable").innerHTML=html;
+}
+
+function sparkMini(vals,up){
+  const w=60,h=18,p=1,mn=Math.min(...vals),mx=Math.max(...vals),rng=mx-mn||1;
+  const pts=vals.map((v,i)=>`${p+i*(w-p*2)/(vals.length-1)},${h-p-(v-mn)/rng*(h-p*2)}`).join(" ");
+  const lp=pts.split(" ").pop().split(",");
+  const col=up?"var(--grn)":"var(--red)";
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" style="vertical-align:middle"><polyline points="${pts}" fill="none" stroke="${col}" stroke-width="1.5" stroke-linejoin="round"/><circle cx="${lp[0]}" cy="${lp[1]}" r="2" fill="${col}"/></svg>`;
+}
+
 function mkLine(svgId,vals,col,H,tipId,tipLabel){
   const svg=document.getElementById(svgId),tip=document.getElementById(tipId);
   const W=svg.parentElement.clientWidth-32,L=50,R=12,T=8,B=18,cw=W-L-R,ch=H-T-B;
@@ -117,21 +274,26 @@ function mkLine(svgId,vals,col,H,tipId,tipLabel){
   svg.querySelectorAll(".pt").forEach(r=>{r.addEventListener("mouseenter",e=>{tip.style.display="block";tip.style.left=(e.clientX+14)+"px";tip.style.top=(e.clientY-10)+"px";tip.innerHTML=DATA[+r.dataset.i].date+"<br><b>"+Number(r.dataset.v).toLocaleString()+"</b> "+tipLabel});r.addEventListener("mouseleave",()=>tip.style.display="none")});
 }
 function renderCharts(){
+  const activeZones=getActiveZones();
   document.getElementById("dauChart").innerHTML="";
-  mkLine("dauChart",DATA.map(d=>d.total_unique_riders),"var(--acc)",180,"dauTip","riders");
+  if(activeZones.length===ZONES.length){
+    mkLine("dauChart",DATA.map(d=>d.total_unique_riders),"var(--acc)",180,"dauTip","riders");
+  } else {
+    mkLine("dauChart",DATA.map(d=>zT(d,activeZones[0],"dau")),ZC[activeZones[0]],180,"dauTip","riders");
+  }
   const svg=document.getElementById("zoneChart"),tip=document.getElementById("zoneTip");
   const W=svg.parentElement.clientWidth-32,H=150,L=50,R=12,T=8,B=18,cw=W-L-R,ch=H-T-B;
   svg.setAttribute("viewBox","0 0 "+W+" "+H);
   let mn=Infinity,mx=-Infinity;
-  for(const z of ZONES){const v=DATA.map(d=>zT(d,z,"dau"));mn=Math.min(mn,...v);mx=Math.max(mx,...v)}
+  for(const z of activeZones){const v=DATA.map(d=>zT(d,z,"dau"));mn=Math.min(mn,...v);mx=Math.max(mx,...v)}
   const rng=mx-mn||1,xf=i=>L+i*cw/(DATA.length-1),yf=v=>T+ch-(v-mn)/rng*ch;
   let gh="";
   for(let t=0;t<=3;t++){const v=mn+rng*t/3,y=yf(v);gh+=`<line x1="${L}" y1="${y}" x2="${W-R}" y2="${y}" stroke="var(--border)" stroke-width="1"/><text x="${L-4}" y="${y+3.5}" text-anchor="end" font-size="9" fill="var(--fg-f)" font-family="JetBrains Mono">${Math.round(v).toLocaleString()}</text>`}
   DATA.forEach((d,i)=>{if(i%5===0||i===DATA.length-1)gh+=`<text x="${xf(i)}" y="${H-2}" text-anchor="middle" font-size="9" fill="var(--fg-f)">${d.date.slice(5)}</text>`});
-  for(const z of ZONES){const vals=DATA.map(d=>zT(d,z,"dau")),c=ZC[z];gh+=`<polyline points="${vals.map((v,i)=>xf(i)+","+yf(v)).join(" ")}" fill="none" stroke="${c}" stroke-width="2" stroke-linejoin="round"/><circle cx="${xf(vals.length-1)}" cy="${yf(vals[vals.length-1])}" r="3" fill="${c}"/>`;vals.forEach((v,i)=>gh+=`<rect x="${xf(i)-6}" y="${yf(v)-6}" width="12" height="12" fill="transparent" data-z="${z}" data-i="${i}" data-v="${v}" class="zp"/>`)}
+  for(const z of activeZones){const vals=DATA.map(d=>zT(d,z,"dau")),c=ZC[z];gh+=`<polyline points="${vals.map((v,i)=>xf(i)+","+yf(v)).join(" ")}" fill="none" stroke="${c}" stroke-width="2" stroke-linejoin="round"/><circle cx="${xf(vals.length-1)}" cy="${yf(vals[vals.length-1])}" r="3" fill="${c}"/>`;vals.forEach((v,i)=>gh+=`<rect x="${xf(i)-6}" y="${yf(v)-6}" width="12" height="12" fill="transparent" data-z="${z}" data-i="${i}" data-v="${v}" class="zp"/>`)}
   svg.innerHTML+=gh;
   svg.querySelectorAll(".zp").forEach(r=>{r.addEventListener("mouseenter",e=>{tip.style.display="block";tip.style.left=(e.clientX+14)+"px";tip.style.top=(e.clientY-10)+"px";tip.innerHTML=DATA[+r.dataset.i].date+"<br>"+r.dataset.z+": <b>"+Number(r.dataset.v).toLocaleString()+"</b> riders"});r.addEventListener("mouseleave",()=>tip.style.display="none")});
-  document.getElementById("zoneLeg").innerHTML=ZONES.map(z=>`<span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--fg-m)"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${ZC[z]}"></span>${z}</span>`).join("");
+  document.getElementById("zoneLeg").innerHTML=activeZones.map(z=>`<span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--fg-m)"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${ZC[z]}"></span>${z}</span>`).join("");
 }
 window.addEventListener("DOMContentLoaded",()=>{initSel();render()});
 window.addEventListener("resize",renderCharts);
